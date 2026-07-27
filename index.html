@@ -1,1 +1,423 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>郭舒月 - 个人作品集与履历</title>
+  <style>
+    /* 1. 配色与全局变量（低饱和度高级配色） */
+    :root {
+      --bg-color: #f7f8f9;        /* 柔和米灰底色 */
+      --card-bg: #ffffff;         /* 纯白卡片背景 */
+      --text-main: #2b303a;       /* 低饱和炭灰文字 */
+      --text-muted: #6c757d;      /* 灰褐色次要文字 */
+      --accent-color: #8b3a42;    /* 典雅酒红/领带红点缀 */
+      --border-color: #e9ecef;    /* 浅灰边框 */
+      --tag-bg: #f1f3f5;          /* 标签背景色 */
+      --shadow-sm: 0 2px 8px rgba(0,0,0,0.04);
+      --shadow-md: 0 4px 12px rgba(0,0,0,0.08);
+      --radius: 12px;
+    }
 
+    /* 2. 基础重置 */
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+      background-color: var(--bg-color);
+      color: var(--text-main);
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* 容器控制（适配手机与PC） */
+    .container {
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 20px 16px 60px 16px;
+    }
+
+    /* 3. 头部 / 个人简介 */
+    header.profile-card {
+      background: var(--card-bg);
+      border-radius: var(--radius);
+      padding: 28px 20px;
+      margin-bottom: 24px;
+      box-shadow: var(--shadow-sm);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      border: 1px solid var(--border-color);
+    }
+
+    .avatar-wrapper {
+      width: 100px;
+      height: 100px;
+      border-radius: 50%;
+      overflow: hidden;
+      margin-bottom: 16px;
+      border: 3px solid var(--border-color);
+      box-shadow: var(--shadow-sm);
+    }
+
+    .avatar-wrapper img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .profile-info h1 {
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: var(--text-main);
+      margin-bottom: 4px;
+    }
+
+    .profile-info .title {
+      font-size: 0.95rem;
+      color: var(--accent-color);
+      font-weight: 600;
+      margin-bottom: 12px;
+    }
+
+    .profile-info .bio {
+      font-size: 0.9rem;
+      color: var(--text-muted);
+      max-width: 600px;
+      margin: 0 auto 16px auto;
+      text-align: justify;
+      text-justify: inter-ideograph;
+    }
+
+    .education-badges {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 8px;
+    }
+
+    .edu-badge {
+      font-size: 0.8rem;
+      background-color: var(--tag-bg);
+      color: var(--text-main);
+      padding: 4px 10px;
+      border-radius: 20px;
+      border: 1px solid var(--border-color);
+    }
+
+    /* 4. 通用模块样式 */
+    section {
+      background: var(--card-bg);
+      border-radius: var(--radius);
+      padding: 24px 20px;
+      margin-bottom: 20px;
+      box-shadow: var(--shadow-sm);
+      border: 1px solid var(--border-color);
+    }
+
+    .section-title {
+      font-size: 1.15rem;
+      font-weight: 700;
+      color: var(--text-main);
+      margin-bottom: 18px;
+      padding-bottom: 8px;
+      border-bottom: 2px solid var(--tag-bg);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .section-title::before {
+      content: "";
+      display: inline-block;
+      width: 4px;
+      height: 16px;
+      background-color: var(--accent-color);
+      border-radius: 2px;
+    }
+
+    /* 5. 技能标签列表 */
+    .skills-grid {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .skill-tag {
+      background-color: var(--tag-bg);
+      color: var(--text-main);
+      font-size: 0.85rem;
+      padding: 6px 12px;
+      border-radius: 6px;
+      font-weight: 500;
+    }
+
+    .skill-tag.highlight {
+      background-color: #fdf2f2;
+      color: var(--accent-color);
+      border: 1px solid #f8d7da;
+    }
+
+    /* 6. 时间线（科研与工作经历） */
+    .timeline {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    .timeline-item {
+      position: relative;
+      padding-left: 16px;
+      border-left: 2px solid var(--border-color);
+    }
+
+    .timeline-item::before {
+      content: "";
+      position: absolute;
+      left: -5px;
+      top: 6px;
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background-color: var(--accent-color);
+    }
+
+    .timeline-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      flex-wrap: wrap;
+      margin-bottom: 4px;
+    }
+
+    .timeline-role {
+      font-weight: 700;
+      font-size: 0.95rem;
+      color: var(--text-main);
+    }
+
+    .timeline-time {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+    }
+
+    .timeline-company {
+      font-size: 0.85rem;
+      color: var(--accent-color);
+      margin-bottom: 8px;
+    }
+
+    .timeline-desc {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      list-style-type: disc;
+      padding-left: 16px;
+    }
+
+    .timeline-desc li {
+      margin-bottom: 4px;
+    }
+
+    /* 7. 发表文章与学术成果 */
+    .pub-card {
+      background-color: var(--bg-color);
+      padding: 14px;
+      border-radius: 8px;
+      margin-bottom: 12px;
+      border: 1px solid var(--border-color);
+    }
+
+    .pub-card:last-child {
+      margin-bottom: 0;
+    }
+
+    .pub-title {
+      font-size: 0.9rem;
+      font-weight: 600;
+      color: var(--text-main);
+      margin-bottom: 6px;
+      line-height: 1.4;
+    }
+
+    .pub-journal {
+      font-size: 0.8rem;
+      color: var(--accent-color);
+      font-weight: 500;
+      margin-bottom: 4px;
+    }
+
+    .pub-meta {
+      font-size: 0.78rem;
+      color: var(--text-muted);
+    }
+
+    /* 8. 联系方式与底部 */
+    .contact-list {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 12px;
+    }
+
+    .contact-item {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      background: var(--bg-color);
+      padding: 12px;
+      border-radius: 8px;
+      border: 1px solid var(--border-color);
+      text-decoration: none;
+      color: var(--text-main);
+      font-size: 0.88rem;
+      transition: background 0.2s;
+    }
+
+    .contact-item:active {
+      background: var(--tag-bg);
+    }
+
+    .contact-icon {
+      font-size: 1.1rem;
+    }
+
+    footer {
+      text-align: center;
+      font-size: 0.75rem;
+      color: var(--text-muted);
+      margin-top: 30px;
+    }
+
+    /* 9. PC端适应调整 */
+    @media (min-width: 600px) {
+      header.profile-card {
+        flex-direction: row;
+        text-align: left;
+        gap: 24px;
+      }
+      .avatar-wrapper {
+        margin-bottom: 0;
+        flex-shrink: 0;
+      }
+      .education-badges {
+        justify-content: flex-start;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    
+    <!-- 个人简介模块 -->
+    <header class="profile-card">
+      <div class="avatar-wrapper">
+        <!-- 替换为你的真实图片文件名 -->
+        <img src="68852fed5648bfedc2aad1458220f89a.jpg" alt="郭舒月寸照">
+      </div>
+      <div class="profile-info">
+        <h1>郭舒月</h1>
+        <div class="title">基础医学硕士 / 视光学学士</div>
+        <p class="bio">
+          阳光务实，严谨细致，具备良好的医学科研思维与临床数据清洗/分析能力。近2年眼科视光中心服务经验，擅长规范化SOP操作与患者依从性沟通。目前正深耕临床研究方向，致力于转化为高效合规的专业人才。
+        </p>
+        <div class="education-badges">
+          <span class="edu-badge">暨南大学 · 基础医学硕士 (在读)</span>
+          <span class="edu-badge">辽宁何氏医学院 · 眼视光学学士</span>
+        </div>
+      </div>
+    </header>
+
+    <!-- 技能标签模块 -->
+    <section>
+      <h2 class="section-title">技能与专业工具</h2>
+      <div class="skills-grid">
+        <span class="skill-tag highlight">数据分析 (SPSS / GraphPad / X-TILE)</span>
+        <span class="skill-tag highlight">大学英语六级 (CET-6)</span>
+        <span class="skill-tag highlight">患者/客户依从性管理</span>
+        <span class="skill-tag">临床随访数据清洗</span>
+        <span class="skill-tag">科研绘图 (Origin / PS / AI)</span>
+        <span class="skill-tag">生物医学实验技能 (IHC / WB / QPCR)</span>
+        <span class="skill-tag">Office 办公套件</span>
+        <span class="skill-tag">GCP法规自学进修中</span>
+      </div>
+    </section>
+
+    <!-- 发表文章与科研成果 -->
+    <section>
+      <h2 class="section-title">发表文章与科研课题</h2>
+      
+      <div class="pub-card">
+        <div class="pub-title">Co-expression pattern of CD8, CXCR5 and CXCL13 in tumor microenvironment predicts favorable efficacy of immunotherapy in lung adenocarcinoma</div>
+        <div class="pub-journal">European Journal of Pharmacology (IF=4.7)</div>
+        <div class="pub-meta">署名：共一作者（排名第二）</div>
+      </div>
+
+      <div class="pub-card">
+        <div class="pub-title">《非小细胞肺癌肿瘤白细胞介素的表达模式对免疫治疗疗效和预后的作用》</div>
+        <div class="pub-journal">中山大学学报（北大核心期刊）</div>
+        <div class="pub-meta">署名：第三作者</div>
+      </div>
+
+      <div class="pub-card" style="margin-top: 12px; background: transparent; border: none; padding: 4px 0;">
+        <div class="pub-title" style="color: var(--accent-color);">[在研硕士课题] 非小细胞肺癌免疫治疗患者预后模型构建</div>
+        <div class="pub-meta">依托受试者队列随访与多组学数据，运用SPSS/GraphPad构建预测模型，筛选敏感干预药物及潜在机制。</div>
+      </div>
+    </section>
+
+    <!-- 履历展示模块 -->
+    <section>
+      <h2 class="section-title">过往工作经历</h2>
+      <div class="timeline">
+        
+        <div class="timeline-item">
+          <div class="timeline-header">
+            <span class="timeline-role">角膜塑形镜验光技师</span>
+            <span class="timeline-time">2020.04 - 2022.02</span>
+          </div>
+          <div class="timeline-company">沈阳爱瑞视眼科</div>
+          <ul class="timeline-desc">
+            <li>精通塑形术前全套精密检查，严格遵守规范化SOP，保障检查数据精准与患者治疗安全。</li>
+            <li>引导学龄儿童及家属进行充分良好的沟通，有效缓解患者焦虑，提升患者治疗配合度与依从性。</li>
+            <li>系统化将专业技术与沟通结合，精准分析需求，进行异议处理与信任建立，提升客户满意度。</li>
+          </ul>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- 联系方式模块 -->
+    <section>
+      <h2 class="section-title">联系方式</h2>
+      <div class="contact-list">
+        <a href="tel:18512453229" class="contact-item">
+          <span class="contact-icon">📞</span>
+          <span>185-1245-3229</span>
+        </a>
+        <a href="mailto:547017133@qq.com" class="contact-item">
+          <span class="contact-icon">✉️</span>
+          <span>547017133@qq.com</span>
+        </a>
+        <div class="contact-item">
+          <span class="contact-icon">📍</span>
+          <span>广东省广州市</span>
+        </div>
+        <div class="contact-item">
+          <span class="contact-icon">💬</span>
+          <span>微信同手机号</span>
+        </div>
+      </div>
+    </section>
+
+    <footer>
+      <p>© 2026 郭舒月 · 个人作品集与履历页面</p>
+    </footer>
+
+  </div>
+
+</body>
+</html>
